@@ -1,19 +1,19 @@
 -- Active: 1706797900068@@127.0.0.1@5432@django_site_lesson@public
-  CREATE TABLE IF NOT EXISTS users (
+  CREATE TABLE IF NOT EXISTS comment (
     id SERIAL PRIMARY KEY,
-    first_name VARCHAR(255) NOT NULL,
-    last_name VARCHAR(255) NOT NULL,
-    age INTEGER NOT NULL
+    name VARCHAR(255) NOT NULL
+    
+    
 );
 
-INSERT INTO users (first_name, last_name, age) VALUES ('John', 'Doe', 42);
-INSERT INTO users (first_name, last_name, age) VALUES ('Jane', 'Doe', 36);
-INSERT INTO users (first_name, last_name, age) VALUES ('John', 'Smith', 24);
+INSERT INTO comment (name) VALUES ('John');
+INSERT INTO comment (name) VALUES ('Jane');
+INSERT INTO comment (name) VALUES ('John');
 
-SELECT * FROM users;
+SELECT * FROM comment;
 
 
 -- delete 
-DELETE FROM users WHERE id > 4;
+DELETE FROM comment WHERE id > 4;
 
-DROP TABLE users;
+DROP TABLE comment;
