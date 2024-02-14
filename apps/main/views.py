@@ -4,5 +4,8 @@ from django.shortcuts import render, HttpResponse
 def index(request):
     return render(request, 'main/index.html' )
 
-def lolasdasdasd(request):
-    return HttpResponse('<h1>LOL</h1>')
+def About_us(request):
+    return render(request,'main/about_us.html')
+
+def contacts(request):
+    return render(request,'main/contacts.html')
