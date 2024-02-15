@@ -10,6 +10,11 @@ class Post(models.Model):
     views = models.IntegerField(verbose_name='Перегляди', default=0)
     created_at = models.DateTimeField(verbose_name='Дата створення', auto_now_add=True)
     updated_at = models.DateTimeField(verbose_name='Дата оновлення', auto_now=True)
+
+
+
+    def __str__(self):
+        return f'{self.title} - {self.created_at} - {self.is_published}'
     
     class Meta:
         verbose_name = 'Пост'
