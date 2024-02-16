@@ -5,8 +5,9 @@
 
         <div class="mt-3 rounded-3 bg-body-tertiary p-4">
             <h3>Блог</h3>
+            <p>Кількість: {{ posts|length }}</p>
             <!-- Button trigger modal -->
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">
                Створити пост
             </button>
             <hr class="my-4">
@@ -62,7 +63,7 @@
                 {{ form }}
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Створити</button>
+                <button type="submit" class="btn btn-info">Створити</button>
 
             </div>
         </form>
