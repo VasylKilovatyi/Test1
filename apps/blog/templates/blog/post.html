@@ -12,8 +12,8 @@
             <div class="d-flex justify-content-between text-center">
                 <h5><span class="badge ">👁️ {{post.views}}</span></h5>
                 <h5><span class="badge ">🗨️ {{post.comments.count}}</span></h5>
-                <h5><span class="btn btn-secondary" id="btn_like">👍 {{post.likes}}</span></h5>
-                <h5><span class="btn btn-secondary" id="btn_dislike">👎 {{post.dislikes}}</span></h5>
+                <h5><span class="btn btn-secondary" id="btn_like">👍 {{post.likes.count}}</span></h5>
+                <h5><span class="btn btn-secondary" id="btn_dislike">👎 {{post.dislikes.count}}</span></h5>
                 
             </div>
             <hr class="my-4">
@@ -25,10 +25,7 @@
             <hr class="mx-2">
             <form action="{% url 'blog:comment' post.id %}" method="post">
                 {% csrf_token %}
-                <div class="mb-3">
-                    <label for="name" class="form-label">Ваше ім'я</label>
-                    <input type="text" class="form-control" id="name" name="author">
-                </div>
+                
                 <div class="mb-3">
                     <label for="comment" class="form-label">Ваш коментар</label>
                     <textarea class="form-control" id="comment" name="content" rows="3"></textarea>
@@ -40,7 +37,7 @@
                 <div class="d-flex justify-content-between">
                     
                     <div>
-                        <button type="button" class="btn btn-secondary" onclick="like_comment({{comment.id}})" id="btn_like_comment_{{comment.id}}">❤️ {{comment.likes}}</button>
+                        <button type="button" class="btn btn-secondary" onclick="like_comment({{comment.id}})" id="btn_like_comment_{{comment.id}}">❤️ {{comment.likes.count}}</button>
 
                         <h5>{{comment.author}}</h5>
                         <p>{{comment.content}}</p>

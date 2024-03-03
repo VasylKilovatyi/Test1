@@ -20,6 +20,7 @@
                                 <img src="{{post.image.url}}" class="card-img-top" alt="...">
                                 <div class="card-body">
                                     <h5 class="card-title">{{post.title}}</h5>
+                                    
                                     <small class="text-muted">{{post.created_at|timesince}}</small>
                                     <!-- <div class="d-flex justify-content-between">
                                         <div class="d-flex align-items-center">
@@ -36,8 +37,8 @@
                                     <div class="d-flex justify-content-between text-center">
                                         <h5><span class="badge ">👁️ {{post.views}}</span></h5>
                                         <h5><span class="badge ">🗨️ {{post.comments.count}}</span></h5>
-                                        <h5><span class="btn" id="btn_like_{{post.id}}" style="cursor: pointer;">👍 {{post.likes}}</span></h5>
-                                        <h5><span class="btn" id="btn_dislike_{{post.id}}" style="cursor: pointer;">👎 {{post.dislikes}}</span></h5>
+                                        <h5><span class="btn" id="btn_like_{{post.id}}" style="cursor: pointer;">👍 {{post.likes.count}}</span></h5>
+                                        <h5><span class="btn" id="btn_dislike_{{post.id}}" style="cursor: pointer;">👎 {{post.dislikes.count}}</span></h5>
                                         
                                     </div>
                                 </div>
