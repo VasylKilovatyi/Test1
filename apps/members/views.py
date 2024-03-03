@@ -3,6 +3,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
+from apps.blog.forms import PostForm
+from django.contrib import messages
 
 
 from .forms import UserCreateForm
@@ -17,6 +19,7 @@ def login_view(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
+                messages.success(request, f'Ви увійшли як {username}')
                 return redirect('members:profile')
     else:
         form = AuthenticationForm()
@@ -26,6 +29,7 @@ def login_view(request):
 @login_required
 def logout_view(request):
     logout(request)
+    messages.info(request, 'Ви вийшли з системи')
     return redirect('members:login')
 
 
@@ -39,11 +43,17 @@ def signup_view(request):
             user.email = form.cleaned_data.get('email')
             user.save()
             login(request, user)
+            messages.success(request, f'Ви успішно зареєструвалися як {user.username}')
             return redirect('members:profile')
     else:
         form = UserCreateForm()
     return render(request, 'members/signup.html', {'form': form})
 
-
+@login_required
 def profile_view(request):
-    return render(request, 'members/profile.html')
+    form_create_post = PostForm()
+    context = {
+        'form_create_post': form_create_post
+    }
+
+    return render(request, 'members/profile.html', context)
