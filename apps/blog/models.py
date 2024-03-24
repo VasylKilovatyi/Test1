@@ -63,7 +63,7 @@ class Post(models.Model):
 
         thumb_io = BytesIO()
         img.save(thumb_io, 'PNG', quality=85)
-        name = image.name.replace('uploads/product_images/', '')
+        name = image.name.replace('post_images/', 'thumbnails/')
         thumbnail = File(thumb_io, name=name)
 
         return thumbnail
