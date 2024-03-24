@@ -1,9 +1,13 @@
 import os
 import uuid
 
-from PIL import Image
+
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.files import File
+
+from io import BytesIO
+from PIL import Image
 
 # Create your models here.
 class Post(models.Model):
@@ -36,11 +40,33 @@ class Post(models.Model):
         
 
         if self.image:
-            img = Image.open(self.image.path)
-            if img.height > 440 or img.width > 820:
-                output_size = (820, 440)
-                img.thumbnail(output_size)
-                img.save(self.image.path)
+             self.make_thumbnail(self.image)
+             super().save(*args, **kwargs)
+
+    def get_thumbnail(self):
+        if self.image_thumbnail:
+            return self.image_thumbnail.url
+        else:
+            if self.image:
+                self.image_thumbnail = self.make_thumbnail(self.image)
+                self.save()
+
+                return self.image_thumbnail.url
+            else:
+                return 'https://via.placeholder.com/240x240x.jpg'
+
+    def make_thumbnail(self, image, size=(820, 440)):
+        img = Image.open(image)
+        img.convert('RGBA')
+        img.thumbnail(size)
+        img = img.resize(size, Image.LANCZOS)
+
+        thumb_io = BytesIO()
+        img.save(thumb_io, 'PNG', quality=85)
+        name = image.name.replace('uploads/product_images/', '')
+        thumbnail = File(thumb_io, name=name)
+
+        return thumbnail
 
        
         
