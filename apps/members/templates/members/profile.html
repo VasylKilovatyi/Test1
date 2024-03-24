@@ -24,7 +24,7 @@
                 <div class="col-4">
                     <div class="card">
                         <div class="card-header {% if post.is_published %}bg-success{% else %}bg-warning{% endif %} text-white d-flex justify-content-center align-items-center">
-                                <a href="" class="btn btn-sm btn-outline-light btn-success">Редагувати</a>
+                                <a href="{% url 'blog:edit_post' post.id %}" class="btn btn-sm btn-outline-light btn-success">Редагувати</a>
                                 <a href="{% url 'blog:delete_post' post.id %}" class="btn btn-sm btn-outline-light btn-danger">Видалити</a>
                             </div>
                         <a href="{% url 'blog:post' post.id %}" class="text-decoration-none text-white">

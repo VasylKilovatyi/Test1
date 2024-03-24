@@ -4,6 +4,7 @@ from .models import Post, Comment
 from .forms import PostForm, CommentForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.core.paginator import Paginator
 
 
 # Create your views here.
@@ -11,13 +12,16 @@ def index(request):
     
     posts = Post.objects.filter(is_published=True)
     create_form = PostForm()
-    
+
+    paginator = Paginator(posts, 3)
+
     context = {
-        'posts': posts,
-        'form': create_form
+        'posts': paginator.get_page(request.GET.get('page')),
+        'create_form': create_form,
     }
-    
+
     return render(request, 'blog/index.html', context)
+
 @login_required
 def post(request, post_id):
     # post = Post.objects.get(id=post_id)
