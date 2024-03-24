@@ -2,7 +2,9 @@
 {% block title %}Профіль{% endblock %}
 {% block content %}
 <div class="mt-4 rounded-3 bg-body-tertiary p-4">
-        <h3 class="text-center">Профіль</h3>
+  <h3 class="text-center">Профіль</h3>
+
+        <img src="{{user.profile.get_avatar}}" class="img-fluid rounded-circle" width="100" alt="...">
         <p>Ім'я користувача: {{ user.username }}</p>
         <p>Ім'я: {{ user.first_name }}</p>
         <p>Прізвище: {{ user.last_name }}</p>
