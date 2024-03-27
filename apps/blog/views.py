@@ -71,6 +71,7 @@ def like(request, post_id):
         post.likes.add(request.user)
     post.save()
     return JsonResponse({'likes': post.likes.count()})
+
 @login_required
 def dislike(request, post_id):
     post = get_object_or_404(Post, id=post_id)

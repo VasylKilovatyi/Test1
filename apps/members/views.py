@@ -3,11 +3,12 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
-from apps.blog.forms import PostForm
 from django.contrib import messages
 
+from .forms import UserCreateForm, ProfileUpdateForm , UserUpdateForm
+from apps.blog.forms import PostForm
+from .models import Profile
 
-from .forms import UserCreateForm
 
 # Create your views here.
 def login_view(request):
@@ -24,15 +25,11 @@ def login_view(request):
     else:
         form = AuthenticationForm()
     return render(request, 'members/login.html', {'form': form})
-
-
 @login_required
 def logout_view(request):
     logout(request)
     messages.info(request, 'Ви вийшли з системи')
     return redirect('members:login')
-
-
 def signup_view(request):
     if request.method == 'POST':
         form = UserCreateForm(request.POST)
@@ -42,18 +39,35 @@ def signup_view(request):
             user.last_name = form.cleaned_data.get('last_name')
             user.email = form.cleaned_data.get('email')
             user.save()
+            Profile.objects.create(user=user)
             login(request, user)
             messages.success(request, f'Ви успішно зареєструвалися як {user.username}')
             return redirect('members:profile')
     else:
         form = UserCreateForm()
     return render(request, 'members/signup.html', {'form': form})
-
 @login_required
 def profile_view(request):
     form_create_post = PostForm()
+    user_form = UserUpdateForm(instance=request.user)
+    profile_form = ProfileUpdateForm(instance=request.user.profile)
     context = {
-        'form_create_post': form_create_post
+        'form_create_post': form_create_post,
+        'user_form': user_form,
+        'profile_form': profile_form,
     }
 
     return render(request, 'members/profile.html', context)
+
+@login_required
+def profile_update_view(request):
+    if request.method == 'POST':
+        user_form = UserUpdateForm(request.POST, instance=request.user)
+        profile_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request, 'Ваш профіль успішно оновлено')
+        else:
+            messages.error(request, 'Вибачте, щось пішло не так')
+    return redirect('members:profile')
