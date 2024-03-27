@@ -15,19 +15,7 @@ class PostForm(forms.ModelForm):
             'is_published': forms.CheckboxInput(attrs={'class': 'form-check-input'})
         }
 
-    def save(self, commit=True):
-        #rename image name
-        post_instance = super(PostForm, self).save(commit=False)  # Get the instance of Post model
-
-        # Rename image name if an image is uploaded
-        if 'image' in self.cleaned_data:
-            image = self.cleaned_data['image']
-            new_image_name = f'{uuid.uuid4()}{image.name[image.name.rfind("."):]}'
-            post_instance.image.name = new_image_name
-
-        if commit:
-            post_instance.save()
-        return post_instance
+    
 
 
 
