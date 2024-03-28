@@ -52,7 +52,7 @@
 
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal modal-xl fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -62,7 +62,29 @@
         <form action="{% url 'blog:create' %}" method="post" enctype="multipart/form-data" id="create_form">
             <div class="modal-body">
                 {% csrf_token %}
-                {{ create_form }}
+                {% for field in create_form %}
+                    <div class="mb-3 form-group">
+                        <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                        <div class="form-control">
+                            <input type="{{ field.field.widget.input_type }}" class="form-control" id="{{ field.id_for_label }}" name="{{ field.name }}" required>
+                        </div>
+                    </div>
+                {% endfor %}
+
+                <div class="mb-3 form-group">
+                    <label for="title" class="form-label">Заголовок</label>
+                    <input type="text" class="form-control" id="title" name="title" required>
+                </div>
+                <div class="mb-3 form-group">
+                    <label for="content" class="form-label">Контент!</label>
+                    <div class="form-control" name="content">
+                    {{ create_form.content}}
+                    </div>
+                </div>
+                <div class="mb-3 form-group">
+                    <label for="image" class="form-label">Зображення</label>
+                    {}
+                </div>
                 <div id="image_box" class="mb-3"></div>
             </div>
             <div class="modal-footer">
