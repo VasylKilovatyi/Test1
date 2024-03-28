@@ -25,7 +25,12 @@ SECRET_KEY = 'django-insecure-xz(7w$2vo^_m=uovaqe$-(x)xp^@@)*r0g4uq9$4c-_bjfu0p!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['lool.ithillelcraft.com', 'localhost', '127.0.0.1']
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://lool.ithillelcraft.com',
+    # Додайте сюди інші довірені домени, якщо потрібно
+]
 
 
 # Application definition
@@ -128,6 +133,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
+ALLOWED_HOSTS = ['lol.ithillelcraft.com', 'localhost', '127.0.0.1']
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://lol.ithillelcraft.com',
+    # Додайте сюди інші довірені домени, якщо потрібно
+]
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
