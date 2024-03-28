@@ -59,13 +59,14 @@
           <h1 class="modal-title fs-5" id="exampleModalLabel">Створити пост</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <form action="{% url 'blog:create' %}" method="post" enctype="multipart/form-data">
+        <form action="{% url 'blog:create' %}" method="post" enctype="multipart/form-data" id="create_form">
             <div class="modal-body">
                 {% csrf_token %}
                 {{ create_form }}
+                <div id="image_box" class="mb-3"></div>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Створити</button>
+              <button type="submit" class="btn btn-primary" id="btn_create">Створити</button>
                 
             </div>
         </form>
@@ -102,6 +103,10 @@
             dislike({{post.id}});
         });
     {% endfor %}
+        
+        const image_box = document.getElementById('image_box');
+        const create_form = document.getElementById('create_form');
+        const btn_create = document.getElementById('btn_create');
 </script>
   
 {% endblock %} 
