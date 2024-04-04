@@ -43,12 +43,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'mptt',
+
     'ckeditor',
     'imagekit',
 
     'apps.main',
     'apps.blog',
     'apps.members',
+    'apps.catalog',
     
     
 ]
