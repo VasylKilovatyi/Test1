@@ -1,60 +1,63 @@
-<a class="btn btn-primary" href="{% url 'admin:index' %}">Admin</a>
+<a class="btn btn-outline-primary btn-sm" href="{% url 'admin:index' %}">Admin</a>
 
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container">
-      <a class="navbar-brand" href="/">
-        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-alipay" viewBox="0 0 16 16">
-          <path d="M2.541 0H13.5a2.55 2.55 0 0 1 2.54 2.563v8.297c-.006 0-.531-.046-2.978-.813-.412-.14-.916-.327-1.479-.536q-.456-.17-.957-.353a13 13 0 0 0 1.325-3.373H8.822V4.649h3.831v-.634h-3.83V2.121H7.26c-.274 0-.274.273-.274.273v1.621H3.11v.634h3.875v1.136h-3.2v.634H9.99c-.227.789-.532 1.53-.894 2.202-2.013-.67-4.161-1.212-5.51-.878-.864.214-1.42.597-1.746.998-1.499 1.84-.424 4.633 2.741 4.633 1.872 0 3.675-1.053 5.072-2.787 2.08 1.008 6.37 2.738 6.387 2.745v.105A2.55 2.55 0 0 1 13.5 16H2.541A2.55 2.55 0 0 1 0 13.437V2.563A2.55 2.55 0 0 1 2.541 0"/>
-          <path d="M2.309 9.27c-1.22 1.073-.49 3.034 1.978 3.034 1.434 0 2.868-.925 3.994-2.406-1.602-.789-2.959-1.353-4.425-1.207-.397.04-1.14.217-1.547.58Z"/>
-        </svg>
-        
-        Майстрерня карамелі</a>
+      <a class="navbar-brand" href="{% url 'main:index' %}">Майстрерня карамелі</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          
+
           <li class="nav-item">
             <a class="nav-link" href="{% url 'main:about_us' %}">Про нас</a>
           </li>
-
-
+        
+        
           <li class="nav-item">
             <a class="nav-link" href="{% url 'main:contacts' %}">Контакти</a>
           </li>
-
+        
           
           <li class="nav-item">
             <a class="nav-link" href="{% url 'blog:index' %}">Blog</a>
           </li>
 
-   
-        </ul>
 
-        <div class="d-flex gap-2">
+        </ul>
+        <form class="d-flex" role="search" method="get" action="{% url 'blog:index' %}">
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="q">
+          <button class="btn btn-success" type="submit">Search</button>
+        </form>
+        <div class="d-flex gap-2 ms-3">
           {% if user.is_authenticated %}
-          
           <div class="dropdown text-end">
             <a href="" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
               <img src="{{user.profile.get_avatar}}" alt="mdo" width="32" height="32" class="rounded-circle">
             </a>
             <ul class="dropdown-menu text-small" style="">
-              <li><a class="dropdown-item" href="{% url 'members:profile' %}">Profile</a></li>
+              <li><a class="dropdown-item" href="{% url 'members:profile' user.username %}"><i class="fa-solid fa-user"></i>Профіль</a></li>
+              <li><a class="dropdown-item" href="{% url 'members:search_profile' %}"><i class="fa-solid fa-user-magnifying-glass"></i>Пошук користувачів</a></li>
               <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="{% url 'members:logout' %}">Sign out</a></li>
+              <li><a class="dropdown-item" href="{% url 'members:logout' %}"><i class="fa-solid fa-right-from-bracket"></i>Sign out</a></li>
             </ul>
           </div>
-
             {% else %}
-            <a class="btn btn-outline-primary btn-sm" href="{% url 'members:login' %}">Увійти</a>
-            <a class="btn btn-outline-warning btn-sm" href="{% url 'members:signup' %}">Зареєструватися</a>
+            <a class="btn btn-outline-primary btn-sm" href="{% url 'members:login' %}"><i class="fa-solid fa-right-to-bracket"></i>Увійти</a>
+            <a class="btn btn-outline-warning btn-sm" href="{% url 'members:signup' %}"><i class="fa-solid fa-user-plus"></i>Зареєструватися</a>
           {% endif %}
-
-
-        
-
-     
       </div>
     </div>
   </nav>
+
+
+
+
+
+
+
+
+
+
+
+  

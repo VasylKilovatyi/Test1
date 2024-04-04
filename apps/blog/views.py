@@ -4,23 +4,32 @@ from .models import Post, Comment
 from .forms import PostForm, CommentForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+#Paginator
 from django.core.paginator import Paginator
-
+#Search Q
+from django.db.models import Q
+# send email
+from django.core.mail import send_mail
 
 # Create your views here.
+# @login_required
 def index(request):
-    
-    posts = Post.objects.filter(is_published=True)
+    query = request.GET.get('q')
+    if query:
+        posts = Post.objects.filter(Q(title__icontains=query) | Q(content__icontains=query), is_published=True)
+    else:
+        posts = Post.objects.filter(is_published=True)
     create_form = PostForm()
-
+    
     paginator = Paginator(posts, 3)
-
+    
     context = {
         'posts': paginator.get_page(request.GET.get('page')),
         'create_form': create_form,
     }
-
+    
     return render(request, 'blog/index.html', context)
+
 
 @login_required
 def post(request, post_id):
@@ -33,8 +42,9 @@ def post(request, post_id):
         'post': post,
         'comment_form': form_comment,
     }
-
+    
     return render(request, 'blog/post.html', context)
+
 @login_required
 def create(request):
     if request.method == 'POST':
@@ -45,10 +55,9 @@ def create(request):
             post = form.save(commit=False)
             post.author = request.user
             post.save()
+            
             messages.success(request, 'Пост створено')
-           
     return redirect('blog:index')
-
 
 @login_required
 def comment(request, post_id):
@@ -61,7 +70,7 @@ def comment(request, post_id):
             comment.post = post
             comment.author = request.user
             comment.save()
-            messages.success(request, 'Додано коментар')
+            messages.success(request, 'Коментар додано')
     return redirect('blog:post', post_id=post_id)
 
 @login_required
@@ -74,6 +83,8 @@ def like(request, post_id):
     post.save()
     return JsonResponse({'likes': post.likes.count()})
 
+
+
 @login_required
 def dislike(request, post_id):
     post = get_object_or_404(Post, id=post_id)
@@ -83,7 +94,6 @@ def dislike(request, post_id):
         post.dislikes.add(request.user)
     post.save()
     return JsonResponse({'dislikes': post.dislikes.count()})
-
 
 @login_required
 def like_comment(request, post_id, comment_id):
@@ -102,13 +112,10 @@ def delete_post(request, post_id):
     messages.success(request, 'Пост видалено')
     return redirect('members:profile')
 
-
-
-
 @login_required
 def edit_post(request, post_id):
     post = get_object_or_404(Post, id=post_id, author=request.user)
-
+    
     if request.method == 'POST':
         form = PostForm(request.POST, request.FILES, instance=post)
         if form.is_valid():
@@ -118,3 +125,12 @@ def edit_post(request, post_id):
     else:
         form = PostForm(instance=post)
     return render(request, 'blog/edit_post.html', {'form': form, 'post': post})
+
+
+
+
+
+
+
+
+
