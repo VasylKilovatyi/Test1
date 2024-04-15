@@ -5,7 +5,7 @@ from .models import Catalog, Product
 from django.db.models import Q
 
 from apps.main.mixins import ListViewBreadcrumbMixin, DetailViewBreadcrumbMixin
-
+from .filters import ProductFilter
 
 # Create your views here.
 
@@ -13,38 +13,36 @@ class CataloglistView(ListViewBreadcrumbMixin):
     model = Catalog
     template_name = 'catalog/index.html'
     context_object_name = 'categories' 
-
+    
     def get_queryset(self):
         return Catalog.objects.filter(parent=None)
-
-
+    
+    
     def get_breradcrumb(self):
         self.breadcrumbs = {
             'current': 'Каталог',
         }
         return self.breadcrumbs
-
-
+    
 class ProductByCategoryView(ListViewBreadcrumbMixin):
     model = Catalog
     template_name = 'catalog/product_by_category.html'
     context_object_name = 'category'
-    
+
     def get_queryset(self):
         self.category = Catalog.objects.get(slug=self.kwargs['slug'])
-        self.categories = Catalog.objects.filter(parent=self.category)
-        self.all_categories = self.categories.get_descendants(include_self=True)
-        print(self.all_categories)
+        self.categories = Catalog.objects.filter(parent=self.category).select_related('parent')
+        self.all_categories = self.categories.get_descendants(include_self=True).values_list('id', flat=True)
         queryset = Product.objects.filter( Q(productcategory__category__in=self.all_categories) | Q(productcategory__category=self.category))
-        print(queryset)
-        return queryset
+        filter_query = ProductFilter(self.request.GET, queryset=queryset)
+        return filter_query
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs) 
         context['categories'] = self.categories
         context['category'] = self.category
         return context
-
+    
     def get_breradcrumb(self):
         breadcrumbs = { reverse('catalog:index'): 'Каталог' }
         if self.category.parent:
@@ -63,12 +61,12 @@ class ProductByCategoryView(ListViewBreadcrumbMixin):
                 breadcrumbs.update({url: name})
         breadcrumbs.update({'current': self.category.name})
         return breadcrumbs
-
+    
 class ProductDetailView(DetailViewBreadcrumbMixin):
     model = Product
     template_name = 'catalog/product.html'
     context_object_name = 'product'
-
+    
     def get_breradcrumb(self):
         breadcrumbs = { reverse('catalog:index'): 'Каталог' }
         category = self.object.main_category()
