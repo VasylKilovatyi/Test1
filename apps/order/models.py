@@ -16,7 +16,7 @@ class Cart(models.Model):
     def total_price(self):
         return self.product.price * self.quantity
 
-
+#ДОробити модель обраного товару та відображення обраного товару в адмінці
 class Favorite(models.Model):
     user = models.ForeignKey('auth.User', on_delete=models.CASCADE, verbose_name='Користувач')
     product = models.ForeignKey('catalog.Product', on_delete=models.CASCADE, verbose_name='Товар')
