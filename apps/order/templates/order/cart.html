@@ -37,7 +37,7 @@
                  <td colspan="4">Всього</td>
                  <td>{{ total_price }}</td>
                  <td>
-                      <a href="" class="btn btn-danger btn-sm">Очистити</a>
+                      <a href="{% url 'order:cart_clear' %}" class="btn btn-danger btn-sm">Очистити</a>
                  </td>
                 </tr>
           </tbody>

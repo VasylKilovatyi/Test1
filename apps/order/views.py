@@ -61,3 +61,9 @@ class DeleteFromCartView(LoginRequiredMixin, View):
         cart.delete()
         messages.success(request, f'Товар {cart.product.name} видалено з корзини')
         return redirect('order:cart')
+
+class ClearCartView(LoginRequiredMixin, View):
+    def get(self, request):
+        Cart.objects.filter(user=request.user).delete()
+        messages.success(request, 'Корзина очищена')
+        return redirect('order:cart')
