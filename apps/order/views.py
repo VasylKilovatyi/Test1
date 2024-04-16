@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect, get_object_or_404
 from django.views.generic import View, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
@@ -53,3 +53,11 @@ class AddToCartView(LoginRequiredMixin, View):
         else:
             messages.error(request, 'Помилка додавання товару в корзину')
             return redirect('catalog:index')
+        
+class DeleteFromCartView(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        cart_id = kwargs.get('pk')
+        cart = get_object_or_404(Cart, pk=cart_id)
+        cart.delete()
+        messages.success(request, f'Товар {cart.product.name} видалено з корзини')
+        return redirect('order:cart')

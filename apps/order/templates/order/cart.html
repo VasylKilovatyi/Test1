@@ -29,7 +29,7 @@
                  <td>{{ item.quantity }}</td>
                  <td>{{ item.total_price }}</td>
                  <td>
-                      <a href="" class="btn btn-danger btn-sm">Видалити</a>
+                      <a href="{% url 'order:cart_remove' item.id %}" class="btn btn-danger btn-sm">Видалити</a>
                  </td>
                 </tr>
                 {% endfor %}
