@@ -53,6 +53,10 @@ INSTALLED_APPS = [
 
     'ckeditor',
     'imagekit',
+    'captcha',
+    'crispy_forms',
+    'crispy_bootstrap5',
+
 
     "debug_toolbar",
     'django_filters',
@@ -188,4 +192,7 @@ CKEDITOR_CONFIGS = {
 
 
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+
+CRISPY_TEMPLATE_PACK = "bootstrap5"
