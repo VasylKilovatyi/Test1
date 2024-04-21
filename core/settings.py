@@ -53,6 +53,8 @@ INSTALLED_APPS = [
 
     'ckeditor',
     'imagekit',
+    'captcha',
+    
 
     "debug_toolbar",
     'django_filters',
