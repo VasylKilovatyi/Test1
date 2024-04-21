@@ -1,7 +1,9 @@
 {% extends 'base.html' %}
 
-{% block title %}Зареєструватися{% endblock %}
+{% load crispy_forms_tags %}
 
+
+{% block title %}Зареєструватися{% endblock %}
 
 
 {% block content %}
@@ -9,7 +11,7 @@
         <h3 class="text-center">Зареєструватися</h3>
         <form method="post">
             {% csrf_token %}    
-            {{form}}
+            {{form | crispy}}
             <button type="submit" class="btn btn-primary">Зареєструватися</button>
             <span class="ms-2">або <a href="{% url 'members:login' %}">увійти</a></span>
         </form>
