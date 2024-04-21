@@ -1,14 +1,19 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UsernameField
 from django.contrib.auth.models import User
+
 from .models import Profile
+
+from captcha.fields import CaptchaField
+
 class UserCreateForm(UserCreationForm):
     first_name = forms.CharField(max_length=30, required=False, )
     last_name = forms.CharField(max_length=30, required=False, )
     email = forms.EmailField(max_length=254, help_text='ЛОл напиши свій email', required=True, label='Email')
+    captcha = CaptchaField()
     class Meta:
         model = User
-        fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2')
+        fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2', 'captcha')
         # widgets = {
         #     'username': forms.TextInput(attrs={'class': 'form-control'}),
         #     'first_name': forms.TextInput(attrs={'class': 'form-control'}),
