@@ -9,6 +9,7 @@
                 <tr>
                  <th scope="col">№</th>
                  <th scope="col">Назва</th>
+                 <th scope="col">Зображення</th>
                  <th scope="col">Ціна</th>
                  <th scope="col">Кількість</th>
                  <th scope="col">Сума</th>
@@ -20,6 +21,11 @@
                 <tr>
                  <th scope="row">{{ forloop.counter }}</th>
                  <td><a href="{{item.product.get_absolute_url}}">{{ item.product.name }}</a></td>
+                 <td>
+                    <a href="{{item.product.get_absolute_url}}">
+                        <img src="{{ item.product.main_image.image_thumbnail.url }}" alt="{{ item.product.name }}" width="50">
+                    </a>
+                </td>
                  <td>{{ item.product.price }}</td>
                  <td class="d-flex align-items-center">
                    <a href="{% url 'order:cart_item_update' cart_id=item.id   action='add' %}" class="btn btn-primary btn-sm">+</a>
